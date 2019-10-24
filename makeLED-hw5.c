@@ -21,12 +21,12 @@
 
 void writeLED(char filename[], char value[]);
 void removeTrigger();
-int X=0;
 int main(int argc, char* argv[]){
-	if(argc!=2){
+	if(argc!=3){
 		printf("Usage is makeLEDC and one of:\n");
-		printf("   on, off, flash or status\n");
-		printf(" e.g. makeLED flash\n");
+		printf("   on, off, flash, blink, or status\n");
+		printf(" e.g. makeLED flash 0\n");
+		printf(" e.g. makeLED blink 3\n");
 		return 2;
 	}
 	printf("Starting the makeLED program\n");
@@ -49,15 +49,14 @@ int main(int argc, char* argv[]){
 		writeLED("/delay_on", "50");
 		writeLED("/delay_off", "50");
 	}
-	else if (strcmp(argv[1],"blink")==0){
-		printf("Enter the amount of blinks: ");
-		scanf("%i",X);   
+	else if (strcmp(argv[1],"blink")==0){ 
+		int X=atoi(argv[2]);
 		printf("Blinking the LED %i times\n",X);	
+		removeTrigger();
 		while(X>0){
-			removeTrigger();
 			writeLED("/brightness", "1");
 			sleep(1);
-			removeTrigger();
+		//	removeTrigger();
 			writeLED("/brightness", "0");
 			sleep(1);
 			X=X-1;
